@@ -1,0 +1,8 @@
+# https://download.pytorch.org/whl/cu121/torch-2.2.1%2Bcu121-cp310-cp310-linux_x86_64.whl
+transformers
+accelerate
+diffusers
+safetensors
+gradio
+pillow
+huggingface_hub
