@@ -1,6 +1,10 @@
+Here is the updated `README.md` reflecting that the Hugging Face token is managed via a `.txt` file instead of the conventional `.env` file approach.
+
+---
+
 # 🎨 AI Text-to-Image Generator
 
-A text-to-image generation web application built using ‪⁠entity⁠‬["software","PyTorch","machine learning framework"]‬, ‪⁠entity⁠‬["software","Hugging Face Diffusers","library for running diffusion models"]‬, and ‪⁠entity⁠‬["software","Gradio","Python UI library for ML apps"]‬.
+A text-to-image generation web application built using PyTorch, Hugging Face Diffusers, and Gradio.
 
 The application uses Stable Diffusion to generate high-quality AI images from natural language prompts.
 
@@ -12,7 +16,7 @@ The application uses Stable Diffusion to generate high-quality AI images from na
 * ⚡ GPU acceleration support with CUDA
 * 🎛️ Adjustable Guidance Scale
 * 🔄 Adjustable Inference Steps
-* 🔐 Hugging Face Token support using environment variables
+* 🔑 Hugging Face Token authentication via localized text file loading
 * 🌐 Public sharing with Gradio
 * ☁️ Google Colab deployment support
 
@@ -33,14 +37,33 @@ The application uses Stable Diffusion to generate high-quality AI images from na
 # 📂 Project Structure
 
 ```bash
-text-to-image-ai/
+Gen_AI_Text_To_Image/
 │
-├── app.py
-├── requirements.txt
+├── .gradio/
+│   └── certificate.pem
+│
+├── .idea/
+│   ├── inspectionProfiles/
+│   │   └── profiles_settings.xml
+│   ├── .gitignore
+│   ├── Gen_AI_Text_To_Image.iml
+│   ├── misc.xml
+│   ├── modules.xml
+│   └── vcs.xml
+│
 ├── README.md
-├── .env
-└── assets/
+├── .gitignore
+├── app.py
+├── python_installer.exe
+└── requirements.txt
+
 ```
+
+---
+
+# 🖼️ Application Screenshot
+
+Here is a preview of the project structure inside the development environment:
 
 ---
 
@@ -51,6 +74,7 @@ text-to-image-ai/
 ```bash
 git clone https://github.com/your-username/text-to-image-ai.git
 cd text-to-image-ai
+
 ```
 
 ---
@@ -59,33 +83,44 @@ cd text-to-image-ai
 
 ```bash
 pip install -r requirements.txt
+
 ```
 
 ---
 
-# 🔐 Environment Variables
+# 🔐 Token Authentication
 
-This project uses a Hugging Face access token stored securely using environment variables.
+Instead of the conventional `.env` setup, this implementation reads the Hugging Face access token directly from a local text file within `app.py`.
 
-Create a `.env` file in the root directory:
+### 1. Generate Your Token
 
-```env
-HF_TOKEN=your_huggingface_token_here
+* Create an account or log in to [https://huggingface.co](https://huggingface.co).
+* Navigate to **Settings** → **Access Tokens** and generate a new token.
+
+### 2. Configure the File
+
+Create a file named `token.txt` (or your preferred text filename) in the root directory and paste your token inside it:
+
+```text
+hf_your_actual_token_here
+
 ```
 
----
+### 3. Loading in app.py
 
-# 🔑 Getting a Hugging Face Token
+The token is loaded and passed to the pipeline using standard Python file I/O operations:
 
-1. Create an account at:
-   [https://huggingface.co](https://huggingface.co)
+```python
+# Loading the token within app.py
+with open("token.txt", "r") as f:
+    hf_token = f.read().strip()
 
-2. Go to:
-   Settings → Access Tokens
+# Example usage with the pipeline
+# pipe = StableDiffusionPipeline.from_pretrained("runwayml/stable-diffusion-v1-5", use_auth_token=hf_token)
 
-3. Generate a new token
+```
 
-4. Paste it into your `.env` file
+> ⚠️ **Important:** Remember to add `token.txt` to your `.gitignore` file to ensure your private credentials are never pushed to public repositories.
 
 ---
 
@@ -93,12 +128,14 @@ HF_TOKEN=your_huggingface_token_here
 
 ```bash
 python app.py
+
 ```
 
 If using Google Colab:
 
 ```python
 # app.launch(share=True)
+
 ```
 
 This generates a public Gradio link.
@@ -131,6 +168,7 @@ Example:
 
 ```python
 guidance_scale=7.5
+
 ```
 
 ---
@@ -153,6 +191,7 @@ Example:
 
 ```python
 num_inference_steps=50
+
 ```
 
 ---
@@ -160,7 +199,8 @@ num_inference_steps=50
 # 🖼️ Example Prompt
 
 ```text
-A futuristic cyberpunk city at sunset with neon lights and flying cars
+Generate a futuristic african city at sunset
+
 ```
 
 ---
@@ -175,12 +215,14 @@ The model automatically detects GPU availability:
 import torch
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
+
 ```
 
 The Stable Diffusion pipeline is moved to GPU using:
 
 ```python
 # pipe = pipe.to(device)
+
 ```
 
 ---
@@ -210,7 +252,7 @@ transformers
 gradio
 accelerate
 safetensors
-python-dotenv
+
 ```
 
 ---
@@ -244,6 +286,10 @@ Built as a Generative AI and Stable Diffusion experimentation project focused on
 * GPU Inference
 * AI Deployment
 * Real-time Image Generation
+
+## 🔗 Live Demo
+
+[https://85d7672a8e379eead9.gradio.live/](https://85d7672a8e379eead9.gradio.live/)
 
 ---
 
